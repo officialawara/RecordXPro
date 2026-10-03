@@ -1,0 +1,43 @@
+diff --git a/node_modules/react-native-iap/android/src/main/java/com/dooboolab/rniap/PromiseUtlis.kt b/node_modules/react-native-iap/android/src/main/java/com/dooboolab/rniap/PromiseUtlis.kt
+index 6176cde..b109d0c 100644
+--- a/node_modules/react-native-iap/android/src/main/java/com/dooboolab/rniap/PromiseUtlis.kt
++++ b/node_modules/react-native-iap/android/src/main/java/com/dooboolab/rniap/PromiseUtlis.kt
+@@ -1,7 +1,6 @@
+ package com.dooboolab.rniap
+ 
+ import android.util.Log
+-import com.facebook.react.bridge.ObjectAlreadyConsumedException
+ import com.facebook.react.bridge.Promise
+ 
+ /**
+@@ -14,7 +13,7 @@ const val TAG = "IapPromises"
+ fun Promise.safeResolve(value: Any?) {
+     try {
+         this.resolve(value)
+-    } catch (oce: ObjectAlreadyConsumedException) {
++    } catch (oce: RuntimeException) {
+         Log.d(TAG, "Already consumed ${oce.message}")
+     }
+ }
+@@ -29,7 +28,7 @@ fun Promise.safeReject(code: String?, throwable: Throwable?) =
+ fun Promise.safeReject(code: String?, message: String?, throwable: Throwable?) {
+     try {
+         this.reject(code, message, throwable)
+-    } catch (oce: ObjectAlreadyConsumedException) {
++    } catch (oce: RuntimeException) {
+         Log.d(TAG, "Already consumed ${oce.message}")
+     }
+ }
+diff --git a/node_modules/react-native-iap/android/src/play/java/com/dooboolab/rniap/RNIapModule.kt b/node_modules/react-native-iap/android/src/play/java/com/dooboolab/rniap/RNIapModule.kt
+index 2d1a3b4..0afa394 100644
+--- a/node_modules/react-native-iap/android/src/play/java/com/dooboolab/rniap/RNIapModule.kt
++++ b/node_modules/react-native-iap/android/src/play/java/com/dooboolab/rniap/RNIapModule.kt
+@@ -445,7 +445,7 @@ class RNIapModule(
+         isOfferPersonalized: Boolean, // New parameter in V5
+         promise: Promise,
+     ) {
+-        val activity = currentActivity
++        val activity = reactContext.currentActivity as? android.app.Activity
+         if (activity == null) {
+             promise.safeReject(PromiseUtils.E_UNKNOWN, "getCurrentActivity returned null")
+             return
