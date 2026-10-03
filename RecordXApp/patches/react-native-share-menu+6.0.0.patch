@@ -1,0 +1,20 @@
+diff --git a/node_modules/react-native-share-menu/android/build.gradle b/node_modules/react-native-share-menu/android/build.gradle
+index 9557fdb..506ea5f 100644
+--- a/node_modules/react-native-share-menu/android/build.gradle
++++ b/node_modules/react-native-share-menu/android/build.gradle
+@@ -1,12 +1,12 @@
+ apply plugin: 'com.android.library'
+ 
+ android {
+-    compileSdkVersion 29
+-    buildToolsVersion "29.0.2"
++    compileSdkVersion 35
++    buildToolsVersion "35.0.0"
+ 
+     defaultConfig {
+         minSdkVersion 16
+-        targetSdkVersion 29
++        targetSdkVersion 35
+         versionCode 1
+         versionName "1.0"
+         ndk {
